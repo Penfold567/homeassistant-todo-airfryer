@@ -1,5 +1,7 @@
 # Todo AirFryer — Home Assistant integration
 
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?logo=buymeacoffee&logoColor=black)](https://www.buymeacoffee.com/penfold567)
+
 Local LAN control for the **Todo / E Smart / SmartLive T-AF05W** air fryer
 (`com.hsmartlink.SmartLive`). No cloud account, no Tuya, no MQTT bridge —
 the integration talks the proprietary UDP protocol directly to the fryer
@@ -101,4 +103,4 @@ disclaimer and limitation of liability — please read it.
 ## Support the project
 
 If this saved you a weekend of reverse engineering, a coffee is welcome:
-see `.github/FUNDING.yml` for current options.
+[buymeacoffee.com/penfold567](https://www.buymeacoffee.com/penfold567).
