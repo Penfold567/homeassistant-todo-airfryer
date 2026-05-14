@@ -1,0 +1,12 @@
+{
+  "domain": "todo_airfryer",
+  "name": "Todo AirFryer",
+  "codeowners": ["@Penfold567"],
+  "config_flow": true,
+  "documentation": "https://github.com/Penfold567/homeassistant-todo-airfryer",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/Penfold567/homeassistant-todo-airfryer/issues",
+  "requirements": ["cryptography>=41.0.0"],
+  "version": "0.1.0"
+}
