@@ -2,6 +2,10 @@
 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?logo=buymeacoffee&logoColor=black)](https://www.buymeacoffee.com/penfold567)
 
+<p align="center">
+  <img src="images/todo_airfryer.png" alt="Todo T-AF05W air fryer" width="320">
+</p>
+
 Local LAN control for the **Todo / E Smart / SmartLive T-AF05W** air fryer
 (`com.hsmartlink.SmartLive`). No cloud account, no Tuya, no MQTT bridge —
 the integration talks the proprietary UDP protocol directly to the fryer
@@ -21,10 +25,12 @@ on your LAN.
 ## Features
 
 - **Local-only** — no cloud, no internet egress required after install
+- **Auto-discovery** — newly-connected fryers trigger an HA discovery
+  notification via DHCP MAC/hostname match
 - Exposes the fryer as a native HA device with these entities:
   - `sensor.state` — `standby` / `cooking` / `done`
   - `sensor.remaining_minutes` — coarse remaining-time bucket
-  - `number.temperature` — 30 °C to 200 °C slider
+  - `number.temperature` — 30 °C to 250 °C slider
   - `number.cook_time` — 1 to 60 minute slider
   - `select.fan` — fan speed 1 / 2 / 3
   - `button.start` / `button.stop`
@@ -55,13 +61,12 @@ The integration asks for:
 
 | Field | Meaning | Default |
 | --- | --- | --- |
-| Air fryer IP address | LAN IP of the fryer (assign a static lease) | — |
-| Home Assistant host IP address | LAN IP of your HA box | — |
-| Local UDP port | UDP source port the integration binds to | `20631` |
+| Air fryer IP address | LAN IP of the fryer (assign a static lease) | auto-filled if discovered |
 | Device password | Inner appliance password | `fryme` |
 
-If the connect probe fails, double-check the IPs and that the fryer is on
-the same LAN (some routers isolate IoT VLANs).
+The HA host IP and local UDP port are detected automatically — there is
+nothing else to enter. If the connect probe fails, double-check that the
+fryer is online and on the same LAN (some routers isolate IoT VLANs).
 
 ## Building scenes and Alexa routines
 

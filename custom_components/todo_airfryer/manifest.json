@@ -3,10 +3,15 @@
   "name": "Todo AirFryer",
   "codeowners": ["@Penfold567"],
   "config_flow": true,
+  "dhcp": [
+    {"hostname": "SMART_*", "macaddress": "5CCF7F*"},
+    {"hostname": "*fryer*"},
+    {"hostname": "*AF05W*"}
+  ],
   "documentation": "https://github.com/Penfold567/homeassistant-todo-airfryer",
   "integration_type": "device",
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/Penfold567/homeassistant-todo-airfryer/issues",
   "requirements": ["cryptography>=41.0.0"],
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

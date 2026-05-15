@@ -3,22 +3,21 @@
     "step": {
       "user": {
         "title": "Todo AirFryer",
-        "description": "Enter the air fryer's LAN IP, the Home Assistant host IP, and the device password (default 'fryme').",
+        "description": "Enter the air fryer's LAN IP and the device password (default 'fryme').",
         "data": {
           "fryer_ip": "Air fryer IP address",
-          "client_ip": "Home Assistant host IP address",
-          "client_port": "Local UDP port",
           "password": "Device password"
         }
       }
     },
     "error": {
-      "cannot_connect": "Could not reach the air fryer on the LAN. Check the IPs and that the fryer is online.",
+      "cannot_connect": "Could not reach the air fryer on the LAN. Check the IP and that the fryer is online.",
       "unknown": "Unexpected error connecting to the air fryer."
     },
     "abort": {
       "already_configured": "This air fryer is already configured."
-    }
+    },
+    "flow_title": "Todo AirFryer ({ip})"
   },
   "entity": {
     "sensor": {
