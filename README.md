@@ -33,7 +33,7 @@ on your LAN.
   - `number.temperature` — 30 °C to 250 °C slider
   - `number.cook_time` — 1 to 60 minute slider
   - `select.fan` — fan speed 1 / 2 / 3
-  - `button.start` / `button.stop`
+  - `button.power` (wake from sleep to standby) / `button.start` / `button.stop`
 - Status polling every 15 s
 - Works as a normal HA device for scenes, scripts, and Alexa exposure via
   Nabu Casa

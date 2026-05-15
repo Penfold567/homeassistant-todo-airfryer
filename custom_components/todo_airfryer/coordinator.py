@@ -71,6 +71,14 @@ class TodoAirFryerCoordinator(DataUpdateCoordinator[AirFryerStatus]):
         await self.hass.async_add_executor_job(_do)
         await self.async_request_refresh()
 
+    async def async_send_power_on(self) -> None:
+        def _do() -> None:
+            with self._build_client() as client:
+                client.power_on()
+
+        await self.hass.async_add_executor_job(_do)
+        await self.async_request_refresh()
+
     async def async_send_start(self) -> None:
         def _do() -> None:
             with self._build_client() as client:

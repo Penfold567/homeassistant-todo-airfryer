@@ -32,6 +32,7 @@
       "fan": {"name": "Fan"}
     },
     "button": {
+      "power": {"name": "Power"},
       "start": {"name": "Start"},
       "stop": {"name": "Stop"}
     }
