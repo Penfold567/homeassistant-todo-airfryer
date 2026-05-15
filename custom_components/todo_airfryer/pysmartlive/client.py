@@ -23,13 +23,22 @@ from .session import (
 )
 
 DEFAULT_FRYER_PORT = 7066
-DEFAULT_CLIENT_PORT = 20631
 DEFAULT_OPEN_PROBE_PORTS = (32708, 23982, 23976, 7066)
 TEMP_MIN_C = 30
-TEMP_MAX_C = 200
+TEMP_MAX_C = 250
 TIME_MIN_MIN = 1
 TIME_MAX_MIN = 60
 FAN_CHOICES = (1, 2, 3)
+
+
+def discover_local_ip(fryer_ip: str) -> str:
+    """Return the local IP the OS would use to reach ``fryer_ip``.
+
+    Uses the UDP-connect-without-send idiom — no packet leaves the host.
+    """
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as probe:
+        probe.connect((fryer_ip, 1))
+        return probe.getsockname()[0]
 
 
 @dataclass
@@ -122,14 +131,14 @@ class AirFryerClient:
     def __init__(
         self,
         fryer_ip: str,
-        client_ip: str,
-        client_port: int = DEFAULT_CLIENT_PORT,
+        client_ip: str | None = None,
+        client_port: int = 0,
         password: bytes = b"fryme",
         arch_identity: str = DEFAULT_ARCH_IDENTITY,
         open_probe_ports: Iterable[int] = DEFAULT_OPEN_PROBE_PORTS,
     ) -> None:
         self.fryer_ip = fryer_ip
-        self.client_ip = client_ip
+        self.client_ip = client_ip or discover_local_ip(fryer_ip)
         self.client_port = client_port
         self.password = password
         self.arch_identity = arch_identity
@@ -150,6 +159,8 @@ class AirFryerClient:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind((self.client_ip, self.client_port))
+        # Pick up the OS-assigned port if we bound to 0 — it gets embedded in the LAN payload.
+        self.client_port = sock.getsockname()[1]
         sock.setblocking(False)
         self.sock = sock
 

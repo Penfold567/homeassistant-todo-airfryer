@@ -1,4 +1,4 @@
-"""Button platform for Todo AirFryer (start, stop)."""
+"""Button platform for Todo AirFryer (power, start, stop)."""
 from __future__ import annotations
 
 from homeassistant.components.button import ButtonEntity
@@ -19,10 +19,24 @@ async def async_setup_entry(
     coordinator: TodoAirFryerCoordinator = hass.data[DOMAIN][entry.entry_id]
     async_add_entities(
         [
+            PowerButton(coordinator),
             StartButton(coordinator),
             StopButton(coordinator),
         ]
     )
+
+
+class PowerButton(TodoAirFryerEntity, ButtonEntity):
+    """Wakes the fryer from sleep into standby (no cooking)."""
+
+    _attr_translation_key = "power"
+    _attr_icon = "mdi:power"
+
+    def __init__(self, coordinator: TodoAirFryerCoordinator) -> None:
+        super().__init__(coordinator, "power")
+
+    async def async_press(self) -> None:
+        await self.coordinator.async_send_power_on()
 
 
 class StartButton(TodoAirFryerEntity, ButtonEntity):

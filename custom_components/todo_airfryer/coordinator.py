@@ -8,11 +8,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
-    CONF_CLIENT_IP,
-    CONF_CLIENT_PORT,
     CONF_FRYER_IP,
     CONF_PASSWORD,
-    DEFAULT_CLIENT_PORT,
     DEFAULT_PASSWORD,
     DOMAIN,
     UPDATE_INTERVAL,
@@ -35,17 +32,10 @@ class TodoAirFryerCoordinator(DataUpdateCoordinator[AirFryerStatus]):
         )
         self.entry = entry
         self.fryer_ip: str = entry.data[CONF_FRYER_IP]
-        self.client_ip: str = entry.data[CONF_CLIENT_IP]
-        self.client_port: int = entry.data.get(CONF_CLIENT_PORT, DEFAULT_CLIENT_PORT)
         self.password: bytes = entry.data.get(CONF_PASSWORD, DEFAULT_PASSWORD).encode()
 
     def _build_client(self) -> AirFryerClient:
-        return AirFryerClient(
-            fryer_ip=self.fryer_ip,
-            client_ip=self.client_ip,
-            client_port=self.client_port,
-            password=self.password,
-        )
+        return AirFryerClient(fryer_ip=self.fryer_ip, password=self.password)
 
     async def _async_update_data(self) -> AirFryerStatus:
         def _fetch() -> AirFryerStatus:
@@ -77,6 +67,14 @@ class TodoAirFryerCoordinator(DataUpdateCoordinator[AirFryerStatus]):
         def _do() -> None:
             with self._build_client() as client:
                 client.set_fan(fan)
+
+        await self.hass.async_add_executor_job(_do)
+        await self.async_request_refresh()
+
+    async def async_send_power_on(self) -> None:
+        def _do() -> None:
+            with self._build_client() as client:
+                client.power_on()
 
         await self.hass.async_add_executor_job(_do)
         await self.async_request_refresh()
